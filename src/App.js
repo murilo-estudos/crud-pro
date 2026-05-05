@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import './index.css';
 
 // Importação das Páginas
@@ -14,7 +14,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import NotFound from './pages/NotFound';
 
-const { isDarkMode } = useTheme();
 
 function App() {
   return (

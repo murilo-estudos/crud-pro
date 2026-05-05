@@ -19,3 +19,13 @@ body {
   font-family: 'Roboto', sans-serif;
   transition: background-color 0.3s ease;
 }
+
+.filter-btn {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.filter-btn:hover {
+  filter: brightness(1.2);
+}

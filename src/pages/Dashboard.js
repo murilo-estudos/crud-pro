@@ -91,28 +91,29 @@ const Dashboard = () => {
   }
 
 // DELETE: Remover tarefa com confirmação bonita
-  function handleDelete(id) {
+function handleDelete(id) {
     toast((t) => (
-      <span>
+      <span style={{ color: 'var(--text-color)', textAlign: 'center', display: 'block' }}>
         Deseja realmente excluir?
         <div style={{ marginTop: '10px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
           <button
             onClick={async () => {
               try {
                 await deleteDoc(doc(db, "tasks", id));
-                toast.dismiss(t.id); // Fecha esta notificação
+                toast.dismiss(t.id);
                 toast.success('Tarefa removida!');
               } catch (e) {
                 toast.error('Erro ao deletar.');
               }
             }}
             style={{ 
-              background: '#1efa29', 
-              color: '#333', 
+              background: '#28a745', 
+              color: '#fff', 
               border: 'none', 
-              padding: '5px 10px', 
+              padding: '6px 15px', 
               borderRadius: '4px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              fontWeight: 'bold'
             }}
           >
             Sim
@@ -120,10 +121,10 @@ const Dashboard = () => {
           <button
             onClick={() => toast.dismiss(t.id)}
             style={{ 
-              background: '#ff4d4d', 
+              background: '#ff4d4d',
               color: '#fff', 
               border: 'none', 
-              padding: '5px 10px', 
+              padding: '6px 15px', 
               borderRadius: '4px',
               cursor: 'pointer'
             }}
@@ -135,6 +136,13 @@ const Dashboard = () => {
     ), {
       duration: 6000, 
       position: 'top-center',
+      // Estilo do container da mensagem
+      style: {
+        background: 'var(--card-bg)',
+        border: '1px solid rgba(128, 128, 128, 0.2)',
+        padding: '16px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+      },
     });
   }
 
@@ -150,22 +158,45 @@ const Dashboard = () => {
   }
 
   const filterStyle = (isActive, color) => ({
-  padding: '8px 16px',
-  borderRadius: '20px',
-  border: 'none',
-  backgroundColor: isActive ? color : '#eee',
-  color: isActive ? 'white' : '#666',
-  cursor: 'pointer',
-  fontSize: '14px',
-  fontWeight: isActive ? 'bold' : 'normal',
-  transition: '0.3s'
-});
+    padding: '8px 16px',
+    borderRadius: '20px',
+    backgroundColor: isActive ? color : 'var(--card-bg)',
+    color: isActive ? 'white' : 'var(--text-color)',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: isActive ? 'bold' : 'normal',
+    transition: '0.3s',
+    border: isActive ? 'none' : '1px solid rgba(128, 128, 128, 0.2)'
+  });
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-            <Toaster 
+                <Toaster 
         position="top-center" 
         reverseOrder={false} 
+        toastOptions={{
+          // Estilo global para todas as notificações (incluindo a de delete)
+          style: {
+            background: 'var(--card-bg)',
+            color: 'var(--text-color)',
+            border: '1px solid rgba(128, 128, 128, 0.2)',
+            borderRadius: '8px',
+            padding: '12px 24px',
+          },
+          // Ajuste fino nos ícones para não sumirem no fundo escuro
+          success: {
+            iconTheme: {
+              primary: '#28a745',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ff4d4d',
+              secondary: '#fff',
+            },
+          },
+        }}
       />
       <h1 style={{ textAlign: 'center', color: 'var(--text-color)' }}>Minhas Tarefas</h1>
       
@@ -230,16 +261,15 @@ const Dashboard = () => {
         </div>
 
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          {/* Início da lógica de lista vazia ou preenchida */}
           {filteredTasks.length === 0 ? (
             <div style={{ 
                 textAlign: 'center', 
                 padding: '40px', 
-                color: 'var(--text-color)', // Mude de #999 para var
-                backgroundColor: 'var(--card-bg)', // Mude de #f9f9f9 para var
+                color: 'var(--text-color)', 
+                backgroundColor: 'var(--card-bg)',
                 borderRadius: '12px',
-                border: '2px dashed var(--text-color)', // Mude #ddd para var (opcional)
-                opacity: 0.6, // Adicione para dar o efeito de "vazio"
+                border: '2px dashed var(--text-color)', 
+                opacity: 0.6, 
                 marginTop: '20px'
               }}>
               <p style={{ fontSize: '18px', fontWeight: '500' }}>

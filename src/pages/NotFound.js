@@ -1,5 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
+
+const { isDarkMode } = useTheme();
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -13,8 +16,8 @@ const NotFound = () => {
         onClick={() => navigate('/')}
         style={{
           padding: '10px 20px',
-          backgroundColor: '#007bff',
-          color: 'white',
+          backgroundColor: 'var(--bg-color)',
+          color: 'var(--text-color)',
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 // Importamos o updateDoc para permitir a edição
 import { 
   collection, 
@@ -22,6 +23,7 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [editingId, setEditingId] = useState(null); // Guarda o ID da tarefa que estamos editando
   const { currentUser } = useAuth();
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     if (!currentUser) return;
@@ -165,7 +167,7 @@ const Dashboard = () => {
         position="top-center" 
         reverseOrder={false} 
       />
-      <h1 style={{ textAlign: 'center', color: '#333' }}>Minhas Tarefas</h1>
+      <h1 style={{ textAlign: 'center', color: 'var(--text-color)' }}>Minhas Tarefas</h1>
       
       <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginBottom: '30px' }}>
         <input 
@@ -174,6 +176,8 @@ const Dashboard = () => {
             padding: '12px', 
             borderRadius: '8px', 
             border: editingId ? '2px solid #ff9800' : '1px solid #ccc',
+            backgroundColor: 'var(--card-bg)', // Adicione isso
+            color: 'var(--text-color)',        // Adicione isso
             outline: 'none'
           }}
           value={task}
@@ -229,14 +233,15 @@ const Dashboard = () => {
           {/* Início da lógica de lista vazia ou preenchida */}
           {filteredTasks.length === 0 ? (
             <div style={{ 
-              textAlign: 'center', 
-              padding: '40px', 
-              color: '#999', 
-              backgroundColor: '#f9f9f9', 
-              borderRadius: '12px',
-              border: '2px dashed #ddd',
-              marginTop: '20px'
-            }}>
+                textAlign: 'center', 
+                padding: '40px', 
+                color: 'var(--text-color)', // Mude de #999 para var
+                backgroundColor: 'var(--card-bg)', // Mude de #f9f9f9 para var
+                borderRadius: '12px',
+                border: '2px dashed var(--text-color)', // Mude #ddd para var (opcional)
+                opacity: 0.6, // Adicione para dar o efeito de "vazio"
+                marginTop: '20px'
+              }}>
               <p style={{ fontSize: '18px', fontWeight: '500' }}>
                 {filter === 'all' && "Você ainda não tem nenhuma tarefa. Que tal começar agora? 🚀"}
                 {filter === 'pending' && "Tudo limpo! Você não tem tarefas pendentes. ✅"}
@@ -250,7 +255,7 @@ const Dashboard = () => {
                   display: 'flex', 
                   justifyContent: 'space-between', 
                   padding: '15px', 
-                  backgroundColor: editingId === t.id ? '#fff3e0' : 'white',
+                  backgroundColor: editingId === t.id ? (isDarkMode ? '#3a2a00' : '#fff3e0') : 'var(--card-bg)',
                   borderRadius: '8px',
                   marginBottom: '10px',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -265,7 +270,7 @@ const Dashboard = () => {
 
                     <span style={{ 
                       fontSize: '16px',
-                      color: t.completed ? '#888' : '#444',
+                      color: 'var(--text-color)',
                       textDecoration: t.completed ? 'line-through' : 'none',
                       wordBreak: 'break-word',
                       marginRight: '10px'
